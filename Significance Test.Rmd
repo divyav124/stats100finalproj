@@ -1,0 +1,20 @@
+---
+title: "Significance Test"
+output: html_notebook
+---
+
+
+
+```{r}
+# Sample win percentages
+win_percent_second <- c(1.7, 2.7, 4.3, 5.4, 5.5, 8.7, 10.7, 14.8, 17.5, 21.1, 22.4, 30.4, 34, 40.9, 75.7, 79.8, 83.1, 87.2, 88.9, 91.7, 94.4, 94.8, 95.5, 97.7, 42.7, 49.4, 53.9, 59.2, 66.3, 69.9, 98.3)  # Win percentage when going second
+win_percent_first <- c(2.7, 3.3, 3.9, 5.1, 6, 8.4, 11.3, 16.8, 16.1, 18.9, 25.2, 30.5, 34.3, 38.8, 72.9, 79.2, 83.3, 86.7, 89, 91.6, 93.3, 93.6, 95.4, 96.1, 43.3, 48.8, 53.9, 60.6, 66.6, 68.6, 97.9)  # Win percentage when going first
+
+# Calculate the observed difference
+t.test(win_percent_first, win_percent_second,
+      alternative = c("two.sided", "less", "greater"),
+      mu = 0, paired = FALSE, var.equal = FALSE,
+      conf.level = 0.95)
+```
+
+Because our P value is 0.9813, the difference is not statistically significant at a alpha = 0.05 level.
