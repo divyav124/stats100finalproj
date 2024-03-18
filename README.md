@@ -1,1 +1,1 @@
-# Modelling the Outcome of Pickleball Matches Based on Histori Win Percentage & Potential Structural Advantages 
+# Modelling the Outcome of Pickleball Matches Based on Historic Win Percentage & Potential Structural Advantages 
