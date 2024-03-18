@@ -1,0 +1,90 @@
+---
+title: Stats Project - Match Modelling"
+output: html_notebook
+---
+
+
+```{r}
+num_iter = 1000
+target = 11
+# probability of winning the point given matchup is Penfold/Powell vs Linn/Kacergis
+p_point = 0.46
+pts = c()
+a_wins = 0
+for (i in c(1:num_iter)) {
+# set up conditions. assume that the team is starting in the serving with the first ,→ server going
+  serve = 1
+  receive = 0
+  a_points = 0
+  b_points = 0
+  num_pts = 0
+  first_server = 0
+  second_server = 1
+  # run simulation
+while (max(a_points, b_points) < target) { 
+  a_win = (runif(1) < p_point)
+#case 1, a team won, they were serving
+  if (a_win && serve == 1) {
+    num_pts = num_pts + 1
+    # win by two stuff below
+    if ((b_points == target - 1) & (a_points == target - 2)) {
+        b_points = target - 2 
+        } else {
+          a_points = a_points + 1 
+        }
+  # if team a lost, but they were serving (rotate servers)
+} else if (!a_win && serve == 1) {
+# if they were the first server, now they are not
+  if (first_server == 1){
+      first_server = 0
+      second_server = 1
+    }
+    # if they were the second server, now the other team goes
+else{
+    second_server = 0 
+    first_server = 1 
+    serve = 1 - serve 
+    receive = 1 - receive
+}
+    # if a team lost, and the opponent was serving
+} else if (!a_win & serve == 0){
+num_pts = num_pts + 1
+if ((b_points == target - 2) & (a_points == target - 1)) {
+a_points = target - 2 }
+else {
+b_points = b_points + 1
+}
+    #if a team won, and the opponent was serving
+} else if (a_win & serve == 0){
+# if they were the first server, now they are not 
+  if (first_server == 1){
+      first_server = 0
+      second_server = 1
+  }
+  # if they were the second server, now the other team goes
+  else{
+      second_server = 0
+      first_server = 1
+      serve = 1 - serve
+      receive = 1 - receive
+    } 
+  }
+}
+
+a_wins = a_wins + (a_points == target)
+pts = c(pts, num_pts) }
+a_win_pct = a_wins/num_iter
+sd_est = sqrt(a_win_pct * (1 - a_win_pct) / num_iter)
+# we compute the estimate by taking the percentage of simulations in which the server won
+print('Server win percentage')
+print(a_win_pct)
+print('99 % confidence interval')
+print(a_win_pct - 2.576 * sd_est)
+print(a_win_pct + 2.576 * sd_est)
+print(mean(pts))
+print(sd(pts))
+hist(pts)
+```
+
+.
+
